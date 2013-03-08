@@ -25,16 +25,29 @@ message goes here <ctrl-z>
 class Ibelium
 {
 public:
+	typedef struct {
+		int index; //index of the sms in memory
+		char* number; //sending number of the message
+		char* message; //the "payload"
+		char* dateTime; //the date/time string.
+	} sms;
+	
 	Ibelium();
 	int init();
 	int sendSMS(char* number, char* message, char* response);
-	int sendATCmd(char* cmd);
-	int sendATQuery(char* cmd, char* response);
-	int readSMS();
+	int readSMS(sms* msg);
+	int checkForSMS();
+
+	
+	
 	//char* checkError(); Not implemented yet
 private:	
 	void switchModule();
 	char* appendStrings(char* a, char* b);
+	int sendATCmd(char* cmd);
+	int sendATQuery(char* cmd, char* response);
+	char* substring(char* str, int a, int b);
+
 	static const int ON_MODULE_PIN =2;
 	static const int LED = 13;
 	int _error; //An error code
